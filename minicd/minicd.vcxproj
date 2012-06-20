@@ -27,7 +27,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="c11_thrd.cpp" />
     <ClCompile Include="minicd.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="minicd.h" />
+    <ClInclude Include="threads.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and '$(VisualStudioVersion)' == ''">$(VCTargetsPath11)</VCTargetsPath>
@@ -154,13 +159,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MiniCD|x64'">
     <Lib>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>kernel32_64.lib;ntdll_64.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32_64.lib;ntdll_64.lib;Shell32.lib;user32.lib</AdditionalDependencies>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <ClCompile>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;MINICD</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -94,6 +94,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)\minicd;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MiniCD|x64'">
     <LibraryPath>$(SolutionDir);$(SolutionDir)\x64\MiniCD;$(LibraryPath)</LibraryPath>
@@ -161,7 +162,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MiniCD|x64'">
     <Link>
-      <AdditionalDependencies>minicd.lib;kernel32_64.lib;ntdll_64.lib</AdditionalDependencies>
+      <AdditionalDependencies>minicd.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MiniCD|x64'">
@@ -175,14 +176,18 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="malloc.cpp" />
-    <ClCompile Include="stdio.cpp" />
-    <ClCompile Include="string.cpp" />
-    <ClCompile Include="thread.cpp" />
+    <ClCompile Include="..\minicd\c11_thrd.cpp" />
+    <ClCompile Include=".\main.c" />
+    <ClCompile Include=".\malloc.c" />
+    <ClCompile Include=".\stdio.c" />
+    <ClCompile Include=".\string.c" />
+    <ClCompile Include=".\thread.c" />
+    <ClCompile Include="benchmark.c" />
+    <ClCompile Include="sort.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\minicd\minicd.h" />
+    <ClInclude Include=".\benchmark.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

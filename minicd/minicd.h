@@ -21,7 +21,7 @@ int __declspec(dllimport) _vsnprintf(char* dest, size_t len, const char* fmt, va
 int printf(const char* fmt, ...);
 
 //"user-mode" entry point
-int main();
+int main(int argc, char* argv[]);
 
 //ctype.h
 
@@ -109,7 +109,7 @@ long __declspec(dllimport)  labs(long n);
 //string.h
 
 ///Copy ct to s including terminating NUL. Return s.
-//__declspec(dllimport) char* strcpy(char* s, const char* ct);
+char* strcpy(char* s, const char* ct);
 ///Copy at most n characters of ct to s Pad with NULs if ct is of length less than n. Return s.
 //__declspec(dllimport) char* strncpy(char* s, const char* ct, int n);
 ///Concatenate ct to s. Return s.
@@ -133,7 +133,7 @@ __declspec(dllimport) size_t strcspn(const char* cs, const char* ct);
 ///Return pointer to first occurrence of ct in cs, or NULL if not found.
 //__declspec(dllimport) char* strstr(const char* cs, const char* ct);
 ///Return length of cs.
-//__declspec(dllimport) size_t strlen(const char* cs);
+__declspec(dllimport) size_t strlen(const char* cs);
 ///Return pointer to implementation-defined string corresponding with error n.
 //__declspec(dllimport) const char* strerror(int n);
 /**
@@ -156,6 +156,7 @@ __declspec(dllimport)char* strtok(char* s, const char* t);
 	or NULL if not found.
 */
 
+
 //time.h
 //An arithmetic type elapsed processor representing time.
 typedef long long int clock_t;
@@ -172,82 +173,8 @@ clock_t __get_CLOCKS_PER_SEC();
 */
 time_t time(time_t* timer);
 
-//threads.h
-typedef HANDLE cnd_t;
-typedef HANDLE thrd_t;
-typedef HANDLE mtx_t;
-typedef DWORD tss_t;
-typedef int (*thrd_start_t)(void*);
-typedef void (*tss_dtor_t)(void);
+#include "threads.h"
 
-enum { mtx_plain=0, mtx_timed=2, mtx_recursive=4 };
-#define thrd_success TRUE
-#define thrd_error FALSE
-#define thrd_busy 42
-
-int thrd_create(thrd_t *thr, thrd_start_t func, void *arg);
-
-thrd_t thrd_current(void);
-
-int thrd_detach(thrd_t thr);
-
-int thrd_equal(thrd_t thr0, thrd_t thr1);
-
-void thrd_exit(int res);
-
-int thrd_join(thrd_t thr, int *res);
-
-void thrd_yield(void);
-///mutexes
-//The mtx_destroy function releases any resources used by the mutex pointed to by
-//mtx. No threads can be blocked waiting for the mutex pointed to by mtx.
-void mtx_destroy(mtx_t *mtx);
-/**
- 	The mtx_init function creates a mutex object with properties indicated by type,
-	which must have one of the six values:
-	mtx_plain for a simple non-recursive mutex,
-	mtx_timed for a non-recursive mutex that supports timeout, 
-	mtx_plain | mtx_recursivefor a simple recursive mutex, or
-	mtx_timed | mtx_recursivefor a recursive mutex that supports timeout. 
-*/
-int mtx_init(mtx_t *mtx, int type);
-/**
-	The mtx_lock function blocks until it locks the mutex pointed to by mtx. If the mutex
-	is non-recursive, it shall not be locked by the calling thread. 
-*/
-int mtx_lock(mtx_t *mtx);
-/**
-	Them tx_trylock function endeavors to lock the mutex pointed to by mtx. If the 
-	mutex is already locked, the function returns without blocking. If the operation succeeds,
-	prior calls to mtx_unlock on the same mutex shall synchronize with this operation.
-*/
-int mtx_trylock(mtx_t *mtx);
-/**
-	The mtx_unlock function unlocks the mutex pointed to bymtx. The mutex pointed to
-	by mtx shall be locked by the calling thread.
-*/
-int mtx_unlock(mtx_t *mtx);
-///TSS or TLS
-/**
-	The tss_create function creates a thread-specific storage pointer with destructor
-	dtor, which may be null
-*/
-int tss_create(tss_t *key, tss_dtor_t dtor);
-/**
-	The tss_delete function releases any resources used by the thread-specific storage
-	identified by key.
-*/
-void tss_delete(tss_t key);
-/**
-	The tss_getfunction returns the value for the current thread held in the thread-specific
-	storage identified bykey.
-*/
-void *tss_get(tss_t key);
-/**
-	The tss_set function sets the value for the current thread held in the thread-specific
-	storage identified by key to val.
-*/
-int tss_set(tss_t key, void *val);
 #ifdef __cplusplus
 }
 #endif
