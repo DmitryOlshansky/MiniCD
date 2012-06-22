@@ -12,10 +12,11 @@
 extern "C" {
 #endif
 
+extern unsigned memory_page_size;
 
 //stdio.h
 const int EOF = -1;
-const int BUFSIZ = 64*1024;
+#define BUFSIZ memory_page_size*2
 typedef unsigned long long fpos_t;
 
 enum { STDIO_READ = 1, STDIO_WRITE = 2, STDIO_APPEND = 4 };
@@ -31,6 +32,32 @@ typedef struct tagFILE{
 	//file_size - full size of file 
 } FILE;
 
+//file-level operations
+/**
+	The remove function causes the file whose name is the string 
+	pointed to by filename to be no longer accessible by that name.
+*/
+int remove(const char *filename);
+
+/**
+	The rename function causes the file whose name is the string pointed to by old_name 
+	to be henceforth known by the name given by the string pointed to by new_name. 
+*/
+int rename(const char *old_name, const char *new_name);
+
+/**
+	The tmpfile function creates a temporary binary file that is different from any other
+	existing file and that will automatically be removed when it is closed or at program
+	termination.
+*/
+FILE *tmpfile(void);
+
+/**
+	The tmpnam function generates a string that is a valid file name and that is not the same
+	as the name of an existing file.
+*/
+char *tmpnam(char *s);
+
 //Open file with mode 'mode' and return pointer to its FILE object.
 FILE* fopen(const char* path, const char* mode);
 
@@ -38,7 +65,9 @@ FILE* fopen(const char* path, const char* mode);
 void fclose(FILE* f);
 
 int fgetc(FILE * f);
+
 int fputc(int ch, FILE *f);
+
 int ungetc(int ch, FILE* f);
 
 int feof(FILE* f);
