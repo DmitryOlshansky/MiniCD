@@ -21,5 +21,5 @@ library for the D programming language on Windows.
 What is not a goal:
 - full pedantic ANSI compatibility (I don't care much but if anything I look at ersatz C11)
 - typical non-standard extensions
-- redoing FP math (as D has it's own and spuperior alternative)
+- redoing FP math (as D has it's own and superior alternative)
 - *any* kind of support for versions of Windows that MS itself doesn't support

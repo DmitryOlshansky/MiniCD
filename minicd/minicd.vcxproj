@@ -159,7 +159,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MiniCD|x64'">
     <Lib>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>kernel32_64.lib;ntdll_64.lib;Shell32.lib;user32.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32_$(Platform).lib;ntdll_$(Platform).lib;Shell32.lib;user32.lib</AdditionalDependencies>
     </Lib>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -167,6 +167,8 @@
     <ClCompile>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <PreprocessorDefinitions>_UNICODE;UNICODE;MINICD</PreprocessorDefinitions>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <OmitFramePointers>false</OmitFramePointers>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

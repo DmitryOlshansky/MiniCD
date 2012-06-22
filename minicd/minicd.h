@@ -12,6 +12,37 @@
 extern "C" {
 #endif
 
+
+//stdio.h
+const int EOF = -1;
+const int BUFSIZ = 64*1024;
+typedef unsigned long long fpos_t;
+
+enum { STDIO_READ = 1, STDIO_WRITE = 2, STDIO_APPEND = 4 };
+typedef struct tagFILE{
+	//TODO: union some fields, honor r/w/a/+ strings more strictly
+	HANDLE file, mapping;//file + memory mapping
+	unsigned char *bstart, *bcur, *bend;//mapping range, bcur - cur pos in view
+	//buffer_size - mapping window size
+	size_t buffer_size;//pos inside of buffer, ofs not updated on getc/fgetc/putc...
+	char  mode;//mode flags
+	int unget_;
+	fpos_t ofs, file_size;	//ofs - real position in file, synced on buffer ops & seek
+	//file_size - full size of file 
+} FILE;
+
+//Open file with mode 'mode' and return pointer to its FILE object.
+FILE* fopen(const char* path, const char* mode);
+
+//Release resource of FILE object f.
+void fclose(FILE* f);
+
+int fgetc(FILE * f);
+int fputc(int ch, FILE *f);
+int ungetc(int ch, FILE* f);
+
+int feof(FILE* f);
+
 //printf family
 int __declspec(dllimport) sprintf(char* dest, const char* fmt, ...);
 int __declspec(dllimport) _snprintf(char* dest, size_t len, const char* fmt, ...);
