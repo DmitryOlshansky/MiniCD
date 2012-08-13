@@ -15,8 +15,8 @@ extern "C" {
 extern unsigned memory_page_size;
 
 //stdio.h
-const int EOF = -1;
-#define BUFSIZ memory_page_size*2
+#define EOF (-1)
+#define BUFSIZ (memory_page_size*8)
 typedef unsigned long long fpos_t;
 
 enum { STDIO_READ = 1, STDIO_WRITE = 2, STDIO_APPEND = 4 };
